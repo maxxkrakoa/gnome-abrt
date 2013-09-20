@@ -33,7 +33,7 @@ load-plugins=
 # can either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
-disable=C0111,W0212,R0201,R0903,R0904,I0011,W0603,W0622,I0001,R0912
+disable=C0111,W0212,R0201,R0903,R0904,I0011,W0603,W0622,I0001,R0912,R0921,C0103
 
 
 [REPORTS]
@@ -42,6 +42,7 @@ disable=C0111,W0212,R0201,R0903,R0904,I0011,W0603,W0622,I0001,R0912
 # (visual studio) and html. You can also give a reporter class, eg
 # mypackage.mymodule.MyReporterClass.
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg} % (self.name, self.line_format))
+#output-format=parseable
 
 # Include message's id in output
 include-ids=yes

@@ -93,6 +93,7 @@ class GtkAppDBUSImpl(object):
             dbus.service.Object.__init__(self, bus_name, GNOME_ABRT_OBJECT_PATH)
             self._app = application
 
+        #pylint: disable=C0322
         @dbus.service.method(dbus_interface=GNOME_ABRT_INTERFACE,
                              in_signature='as', out_signature='')
         def command_line(self, argv):
