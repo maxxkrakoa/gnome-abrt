@@ -14,29 +14,45 @@ License:    GPLv2+
 URL:        https://fedorahosted.org/abrt/
 Source0:    https://github.com/downloads/jfilak/abrt-gnome-oops/%{name}-%{version}.tar.gz
 
+%if 0%{?suse_version}
+ %define pygobject python-gobject-cairo
+ %define pygobject_devel python-gobject-devel
+ %define python_devel python-devel
+ %define dbus_python dbus-1-python
+ %define python_pylint python-pylint
+ %define pyinotify python-pyinotify
+%else
+ %define pygobject pygobject3
+ %define pygobject_devel pygobject3-devel
+ %define python_devel python2-devel
+ %define dbus_python dbus-python
+ %define python_pylint pylint
+ %define pyinotify python-inotify
+%endif
+
 BuildRequires: intltool
 BuildRequires: gettext
 BuildRequires: libtool
-BuildRequires: python2-devel
+BuildRequires: %{python_devel}
 BuildRequires: desktop-file-utils
 BuildRequires: asciidoc
 BuildRequires: xmlto
-BuildRequires: pygobject3-devel
+BuildRequires: %{pygobject_devel}
 BuildRequires: libreport-gtk-devel > 2.0.20
 BuildRequires: abrt-gui-devel > 2.1.6.1
 BuildRequires: gtk3-devel
-%if 0%{?fedora}
-BuildRequires: pylint
-BuildRequires: python-inotify
-BuildRequires: pygobject3
-BuildRequires: dbus-python
-%else
+%if 0%{?rhel}
 %define checkoption --with-nopylint
+%else
+BuildRequires: %{python_pylint}
+BuildRequires: %{pyinotify}
+BuildRequires: %{pygobject}
+BuildRequires: %{dbus_python}
 %endif
 
-Requires:   python-inotify
-Requires:   pygobject3
-Requires:   dbus-python
+Requires:   %{pyinotify}
+Requires:   %{pygobject}
+Requires:   %{dbus_python}
 Requires:   xdg-utils
 
 %description
