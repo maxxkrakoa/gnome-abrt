@@ -126,7 +126,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/%{name}
 %{_bindir}/%{name}
 %{_datadir}/applications/*
+%if 0%{?fedora} >= 20
 %{_datadir}/appdata/*
+%else
+%{_datadir}/appdata
+%endif
 %{_mandir}/man1/%{name}.1*
 %{_datadir}/icons/hicolor/*/apps/*
 %{_datadir}/icons/hicolor/*/status/*
