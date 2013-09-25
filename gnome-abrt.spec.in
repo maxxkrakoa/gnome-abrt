@@ -50,6 +50,10 @@ BuildRequires: %{pygobject}
 BuildRequires: %{dbus_python}
 %endif
 
+%if 0%{?suse_version}
+BuildRequires: update-desktop-files
+%endif
+
 Requires:   %{pyinotify}
 Requires:   %{pygobject}
 Requires:   %{dbus_python}
@@ -77,10 +81,14 @@ make install DESTDIR=$RPM_BUILD_ROOT mandir=%{_mandir}
 # remove all .la and .a files
 find $RPM_BUILD_ROOT -name '*.la' -or -name '*.a' | xargs rm -f
 
+%if 0%{?suse_version}
+%suse_update_desktop_file -i %{name} SystemSetup
+%else
 desktop-file-install \
     --dir ${RPM_BUILD_ROOT}%{_datadir}/applications \
     --delete-original \
     ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
+%endif
 
 
 %check
@@ -89,18 +97,27 @@ make check
 
 %post
 # update icon cache
+%if 0%{?suse_version}
+%icon_theme_cache_post
+%else
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
+%endif
 
 
 %postun
+%if 0%{?suse_version}
+%icon_theme_cache_postun
+%else
 if [ $1 -eq 0 ] ; then
     touch --no-create %{_datadir}/icons/hicolor &>/dev/null
     gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
+%endif
 
-
+%if 0%{!suse_version:1}
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+%endif
 
 
 %files -f %{name}.lang
